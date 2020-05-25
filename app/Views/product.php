@@ -8,6 +8,14 @@
 <body>
 
     <br><br><br><br><br>
-    <a>This is a product</a>
+    <div class="col-sm-8">
+        <a>This is a product</a>
+        <img></img>
+        <a>Name: <?php echo $_SESSION[""]; ?></a><br>
+        <a>Price: <?php echo $_SESSION[""]; ?></a><br>
+        <a>Description: <?php echo $_SESSION[""]; ?></a><br>
+        <a>Link: <?php echo $_SESSION[""]; ?></a><br>
+    </div>
+
 </body>
 </html>

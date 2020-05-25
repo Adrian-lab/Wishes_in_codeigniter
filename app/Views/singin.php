@@ -32,7 +32,7 @@
             <input type="password" placeholder="Enter Password" name="psw" required>
 
             </label>
-            <input type="submit" value="enviar">
+            <input type="submit" value="Send">
         </form>
     </div>
 

@@ -40,7 +40,7 @@
   <!-- Fixed navbar -->
   <?php 
 
-  if (isset($_SESSION["name"])){
+  if (isset($_SESSION['name'])){
     ?>
       <!-- navbar logged -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -53,9 +53,13 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url('home/products'); ?>">Products</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('home/profile'); ?>">Profile</a>
+        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <a class="nav-link" href="<?php echo base_url('home/profile'); ?>">Hi <?php echo $_SESSION["name"]; ?></a>
+        <a class="nav-link" href="<?php echo base_url('home/logout'); ?>">Logout</a>
       </form>
     </div>
   </nav>

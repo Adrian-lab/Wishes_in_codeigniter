@@ -5,7 +5,6 @@ class Home extends BaseController
 	//pag home
 	public function index()
 	{
-
 		echo view('/inc/header');
 		echo view('home');
 
@@ -25,7 +24,7 @@ class Home extends BaseController
 		$username = $_POST['uname'];
 		$pass = $_POST['psw'];
 		//echo view('login');
-
+		session_start();
 		//validation
 		// BD connection
 		try
@@ -73,7 +72,8 @@ class Home extends BaseController
 		//start session
 		if (($okmail==1) && ($okpass == 1)){
 
-			$session = session();
+			//$session = session();
+
 			$sql = "SELECT Name FROM user WHERE Email = ?";
 			$query = $db->query($sql, $username);
 
@@ -84,17 +84,37 @@ class Home extends BaseController
 				$nom = $row['Name'];
 
 			}
+			
+			$_SESSION['name'] = $nom;
+			$_SESSION['email'] = $username;
+			//$session->set('name', $nom);
+			//$session->set('email', $username);
 
-			//$_SESSION['name'] = $nom;
-			$session->set('name', $nom);
-			$session->set('email', $username);
+
+			//GET USER DATA 
+			$sql = "SELECT * FROM user WHERE Email = ?";
+			$query = $db->query($sql, $username);
+
+			//validation password
+			foreach ($query->getResult('array') as $row)
+			{
+				$age = $row['Age'];
+				$surname = $row['Surname'];
+			}
+			
+			$data['age'] = $age;
+			$data['surname'] = $surname;
+
+
+			var_dump($data);			
 
 			echo view('/inc/header');
-			echo view('products');
+			echo view('profile', $data);
 		}else{
 			//echo view('/inc/header');
 			echo view('login');
 		}
+
 
 	}
 
@@ -107,76 +127,63 @@ class Home extends BaseController
 
 	//pasar datos
 	public function newuser(){
-		echo view('/inc/header');
 		$uname = $_POST['uname'];
 		$sname = $_POST['sname'];
 		$age = $_POST['age'];
 		$mail = $_POST['mail'];
 		$psw = $_POST['psw'];
-		echo view('singin');
-
-		$unameOk = 0;
-		$snameOk = 0;
-		$ageOk = 0;
-		$mailOk = 0;
-		$pswOk = 0;
-
-		echo ($uname);
-		echo ($sname);
-		echo ($age);
-		echo ($mail);
-		echo ($psw);
-
-		if($uname!=NULL){
-			$unameOk = 1;
-		}
-		if($sname!=NULL){
-			$snameOk = 1;
-		}
-		if($age!=NULL){
-			$ageOk = 1;
-		}
-		if($mail!=NULL){
-			$mailOk = 1;
-		}
-		if($psw!=NULL){
-			$pswOk = 1;
-		}
+		$exists = 0;
 
 
 		//validation
 		try
 		{
 			$db = \Config\Database::connect();
-		
+	
 		}
 			catch (\Exception $e)
 		{
 			die($e->getMessage());
 		}
-		/*
-		try
-		{
-			if($unameOk == 1 && $snameOk == 1 && $ageOk == 1 && $mailOk == 1 && $pswOk == 1){
-				$query = $db->query('INSERT Name FROM user');
-				$query = $db->query('INSERT Surname FROM user');
-				$query = $db->query('INSERT Age FROM user');
-				$query = $db->query('INSERT Email FROM user');
-				$query = $db->query('INSERT Password FROM user');
 
-				echo view('/inc/header');
-				echo view('home');
-			}
-		}
-			catch (\Exception $e)
+
+		$query = $db->query("SELECT Email FROM user");
+
+		foreach ($query->getResult('array') as $row)
 		{
-			die($e->getMessage());
-		}*/
-		
+				
+			if (strcmp($row['Email'], $mail) == 0){
+				$exists = 1;
+			}
+
+		}
+
+		if ($exists != 1){
+
+			//SESSION
+
+			$session = session();
+			$session->set('name', $nom);
+			$session->set('email', $username);
+			
+
+
+			//Registro
+			$query = $db->query("INSERT INTO user (Name, Surname, Age, Email, Password) VALUES ('$uname', '$sname', '$age', '$mail', '$psw')");
+			
+			echo view('/inc/header');
+			echo view('home');
+		}else{
+			echo view('/inc/header');
+			echo view('singin');
+		}
+
 	}
 
 	//llamar pag products
 	public function products(){
+
+		var_dump($_SESSION);
 		echo view('/inc/header');
 		echo view('products');
 
@@ -191,16 +198,13 @@ class Home extends BaseController
 
 	}
 
-	//datos deseo
-	public function wish(){
+	//logout
+	public function logout(){
+		session_destroy();
+		unset($_SESSION['name']);
+		unset($_SESSION['email']);
 		echo view('/inc/header');
-		$something = $_POST['wish'];
-		echo view('singin');
-
-
-
-		echo ($something);
-
+		echo view('home');
 	}
 
 	//--------------------------------------------------------------------
