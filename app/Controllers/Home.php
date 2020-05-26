@@ -21,6 +21,9 @@ class Home extends BaseController
 	public function user(){
 		$okmail = 0;
 		$okpass = 0;
+		$okmailAdmin = 0;
+		$okpassAdmin = 0;
+
 		$username = $_POST['uname'];
 		$pass = $_POST['psw'];
 		//echo view('login');
@@ -67,54 +70,72 @@ class Home extends BaseController
 			//echo ($row['Contraseña']);
 
 		}
-
 		
-		//start session
 		if (($okmail==1) && ($okpass == 1)){
 
-			//$session = session();
+			if(strcmp($username, "admin@gmail.com") == 0){
 
-			$sql = "SELECT Name FROM user WHERE Email = ?";
-			$query = $db->query($sql, $username);
+				$sql = "SELECT Name FROM user WHERE Email = ?";
+				$query = $db->query($sql, $username);
 
-			//$query = $db->query("SELECT Nom FROM user WHERE	Email = '.$username.'");
-			foreach ($query->getResult('array') as $row)
-			{
+				//$query = $db->query("SELECT Nom FROM user WHERE	Email = '.$username.'");
+				foreach ($query->getResult('array') as $row)
+				{
+					
+					$nom = $row['Name'];
+
+				}
+
+				$_SESSION['name'] = $nom;
+				$_SESSION['email'] = $username;
+
+				echo view("/inc/header");
+				echo view("admin");
+			}else{
+
+			
+
+
+				//$session = session();
+
+				$sql = "SELECT Name FROM user WHERE Email = ?";
+				$query = $db->query($sql, $username);
+
+				//$query = $db->query("SELECT Nom FROM user WHERE	Email = '.$username.'");
+				foreach ($query->getResult('array') as $row)
+				{
+					
+					$nom = $row['Name'];
+
+				}
 				
-				$nom = $row['Name'];
+				$_SESSION['name'] = $nom;
+				$_SESSION['email'] = $username;
+				//$session->set('name', $nom);
+				//$session->set('email', $username);
 
+
+				//GET USER DATA 
+				$sql = "SELECT * FROM user WHERE Email = ?";
+				$query = $db->query($sql, $username);
+
+				//validation password
+				foreach ($query->getResult('array') as $row)
+				{
+					$age = $row['Age'];
+					$surname = $row['Surname'];
+				}
+				
+				$data['age'] = $age;
+				$data['surname'] = $surname;			
+
+				echo view('/inc/header');
+				echo view('profile', $data);
 			}
-			
-			$_SESSION['name'] = $nom;
-			$_SESSION['email'] = $username;
-			//$session->set('name', $nom);
-			//$session->set('email', $username);
-
-
-			//GET USER DATA 
-			$sql = "SELECT * FROM user WHERE Email = ?";
-			$query = $db->query($sql, $username);
-
-			//validation password
-			foreach ($query->getResult('array') as $row)
-			{
-				$age = $row['Age'];
-				$surname = $row['Surname'];
-			}
-			
-			$data['age'] = $age;
-			$data['surname'] = $surname;
-
-
-			var_dump($data);			
-
-			echo view('/inc/header');
-			echo view('profile', $data);
 		}else{
-			//echo view('/inc/header');
-			echo view('login');
+			echo view('/inc/header');
+			echo view('login');	
 		}
-
 
 	}
 
@@ -205,6 +226,89 @@ class Home extends BaseController
 		unset($_SESSION['email']);
 		echo view('/inc/header');
 		echo view('home');
+	}
+
+	//profile
+	public function profile(){
+
+		try
+		{
+			$db = \Config\Database::connect();
+	
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+	
+		$sql = "SELECT * FROM user WHERE Email = ?";
+		$query = $db->query($sql, $_SESSION['email']);
+
+		if($_SESSION['email'] == "admin@gmail.com"){
+			echo view('/inc/header');
+			echo view('admin');
+		}else{
+			foreach ($query->getResult('array') as $row)
+			{
+				$age = $row['Age'];
+				$surname = $row['Surname'];
+			}
+			
+			$data['age'] = $age;
+			$data['surname'] = $surname;
+			echo view('/inc/header');
+			echo view('profile', $data);
+		}
+
+	}
+
+	public function admin(){
+		echo view('/inc/header');
+		echo view('admin');
+	}
+
+	public function addProduct (){
+		$pname = $_POST['pname'];
+		$price = $_POST['price'];
+		$description = $_POST['description'];
+		$link = $_POST['link'];
+		$imgnumber = $_POST['imgnumber'];
+		$exists = 0;
+
+		//validation
+		try
+		{
+			$db = \Config\Database::connect();
+			
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$query = $db->query("SELECT Img FROM product");
+		
+		foreach ($query->getResult('array') as $row)
+		{			
+			if (strcmp($row['Img'], $imgnumber) == 0){
+				$exists = 1;
+			}
+
+		}
+
+		if ($exists != 1){
+
+			//Registro
+			$query = $db->query("INSERT INTO product (Name, Price, Description, Link, Img) VALUES ('$pname', '$price', '$description', '$link', '$imgnumber')");
+			
+			echo view('/inc/header');
+			echo view('admin');
+		}else{
+			echo view('/inc/header');
+			echo view('admin');
+		}
+
 	}
 
 	//--------------------------------------------------------------------

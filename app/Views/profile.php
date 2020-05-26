@@ -8,7 +8,7 @@
 <body>
 
     <br><br><br><br><br>
-    <a>This is a profile my nigga</a>
+    <a>This is a profile</a>
 
     <div class="col-sm-8">
         <div class="col-sm-6">
