@@ -108,134 +108,33 @@
 <!-- Photo Grid -->
 <div class="row"> 
   <div class="column">
+    <?php 
+
+    if(strcmp($warning, "exists") == 0){
+      ?>
+      <div class="warning" style="width:100%; height:100px; background-color:orange;">
+        <p>This product is already in your wishlist</p>
+      </div>
+      <?php
+    }
+
+    foreach ($products as $row){
+    ?>
     <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
+        <img src="../../public/assets/img/<?php echo $row?>.jpg" alt="Imagen producto">
+        <button  class="btn" role="link" onclick="window.location='product?arg=<?php echo $row?>'">Profile</button>
+        <?php 
+         if (isset($_SESSION['name'])){?>
+          <button class="btn" role="link" onclick="window.location='wish?arg=<?php echo $row?>'">Wish</button>
+   <?php }?>
     </div>
 
-  </div>
-  <div class="column">
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
-    <div class="container">
-        <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-        <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-        <button class="btn">Wish</button>
-    </div>
+    <?php
+    }
+    ?>
+    
   </div>  
-  <div class="column">
-    <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-  </div>
-  <div class="column">
-    <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-        <div class="container">
-            <img src="../../public/assets/img/red-dead-redemption-2.jpg" alt="red-dead-redemption-2">
-            <button class="btn" role="link" onclick="window.location='product'">Profile</button>
-            <button class="btn">Wish</button>
-        </div>
-  </div>
+
 </div>
 
 <script>

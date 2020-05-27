@@ -9,11 +9,28 @@
 	<!--<link rel="stylesheet" type="text/css" href="../public/Assets/css/main.css">
 	<link rel="stylesheet" type="text/css" href="../public/Assets/css/bootstrap.min.css">-->
 
-    <title>Sing in</title>
+    <title>Admin</title>
 </head>
 <body>
     <br><br><br>
 
+    <?php 
+        if (strcmp($info, "ok") ==0){
+            ?>
+                <div class="warning" style="width:100%; height:70px; background-color:green;">
+                    <p>Data has been successfully removed</p>
+                </div>
+
+            <?php
+        }
+
+        if (strcmp($info, "noexist") == 0){
+            ?>
+                 <div class="warning" style="width:100%; height:70px; background-color:red;">
+                    <p>The given data does not exist! Please try again</p>
+                </div>
+            <?php
+        }?>
     <div class= col-sm-6>
     <button type="button" onclick="addProduct()">Add product</button>
     <button type="button" onclick="removeProduct()">Remove product</button>

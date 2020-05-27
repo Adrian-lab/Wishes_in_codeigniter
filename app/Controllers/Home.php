@@ -178,14 +178,13 @@ class Home extends BaseController
 			}
 
 		}
-
+		
 		if ($exists != 1){
 
 			//SESSION
-
-			$session = session();
-			$session->set('name', $nom);
-			$session->set('email', $username);
+			
+			$_SESSION['name'] = $uname;
+			$_SESSION['email'] = $mail;
 			
 
 
@@ -204,18 +203,77 @@ class Home extends BaseController
 	//llamar pag products
 	public function products(){
 
-		var_dump($_SESSION);
+		$products = array();
+
+		try
+		{
+			$db = \Config\Database::connect();
+	
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$query = $db->query("SELECT Img FROM product");
+
+		foreach ($query->getResult('array') as $row)
+		{
+				
+			array_push($products, $row['Img']);
+
+		}
+
+		$data['products'] = $products;
+		
 		echo view('/inc/header');
-		echo view('products');
+		echo view('products', $data);
 
 	}
 
 	//llamar pag product
 	public function product(){
+
+		$product_info = array();
+	
+		$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+		$img_id = substr($actual_link, -1);
+
+		try
+		{
+			$db = \Config\Database::connect();
+	
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$sql = "SELECT * FROM product WHERE Img = ?";
+		$query = $db->query($sql, $img_id);
+
+		foreach ($query->getResult('array') as $row)
+		{
+			
+			array_push($product_info, $row['Name'] );
+			array_push($product_info, $row['Price'] );
+			array_push($product_info, $row['Description'] );
+			array_push($product_info, $row['Link'] );
+
+			/*$data['product_name'] = $row['Name'];
+			$data['product_price'] = $row['Price'];
+			$data['product_description'] = $row['Description'];*/
+	
+		}
+		$img_url = "../../public/assets/img/".$img_id.".jpg";
+		array_push($product_info,$img_url );
+		$data['product_info'] = $product_info;
+
 		echo view('/inc/header');
-		echo view('product');
-		$something = $_POST['wish'];
-		echo ($something);
+		echo view('product', $data);
+		//$something = $_POST['wish'];
+		//echo ($something);
 
 	}
 
@@ -268,6 +326,7 @@ class Home extends BaseController
 		echo view('admin');
 	}
 
+	//Function add product
 	public function addProduct (){
 		$pname = $_POST['pname'];
 		$price = $_POST['price'];
@@ -301,14 +360,165 @@ class Home extends BaseController
 
 			//Registro
 			$query = $db->query("INSERT INTO product (Name, Price, Description, Link, Img) VALUES ('$pname', '$price', '$description', '$link', '$imgnumber')");
+
+			
 			
 			echo view('/inc/header');
 			echo view('admin');
 		}else{
 			echo view('/inc/header');
-			echo view('admin');
+			echo view('home');
 		}
 
+	}
+
+	//Function remove Product
+	public function removeProduct(){
+		$imgnumber = $_POST['imgnumber'];
+		$exists = 0;
+
+		//validation
+		try
+		{
+			$db = \Config\Database::connect();
+			
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$query = $db->query("SELECT Img FROM product");
+
+		foreach ($query->getResult('array') as $row)
+		{			
+			if (strcmp($row['Img'], $imgnumber) == 0){
+				$exists = 1;
+			}
+
+		}
+
+		if ($exists != 1){
+
+			$data['info'] = "noexist";
+			echo view('/inc/header');
+			echo view('admin', $data);
+
+		}else{
+			//Registro
+			$query = $db->query("DELETE FROM product WHERE Img = $imgnumber");
+			
+
+			$data['info'] = "ok";
+			echo view('/inc/header');
+			echo view('admin', $data);
+		}
+		
+	}
+
+	//Delete user
+	public function removeUser(){
+		$mail = $_POST['mail'];
+		$exists = 0;
+
+		//validation
+		try
+		{
+			$db = \Config\Database::connect();
+			
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$query = $db->query("SELECT Email FROM user");
+
+		foreach ($query->getResult('array') as $row)
+		{			
+			if (strcmp($row['Email'], $mail) == 0){
+				$exists = 1;
+			}
+
+		}
+
+		if ($exists != 1){
+
+			if (empty($mail)){
+				$data['info'] = "noexist";	
+			}
+			$data['info'] = "nodata";
+			echo view('/inc/header');
+			echo view('admin', $data);
+			
+
+		}else{
+			//Registro
+			
+			$sql = "DELETE FROM user WHERE Email = ?";
+			$query = $db->query($sql, $mail);
+			//$query = $db->query("DELETE FROM user WHERE Email = $mail");
+			
+			$data['info'] = "ok";
+
+			echo view('/inc/header');
+			echo view('admin', $data);
+		}
+	}
+
+	public function wish(){
+
+		$items;
+
+		$products = array();
+	
+		$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+		$img_id = substr($actual_link, -1);
+
+		try
+		{
+			$db = \Config\Database::connect();
+	
+		}
+			catch (\Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		$sql = "SELECT Items FROM wishlist WHERE UserMail = ?"; 
+
+		//echo "USER -------->:".$_SESSION['email'];
+		$query = $db->query($sql, $_SESSION['email']);
+
+		foreach ($query->getResult('array') as $row)
+		{	
+			
+			$items = $row['Items'];
+		}
+
+		$items = str_split($items);
+
+		foreach ($items as $char) {
+			echo "CHAAAAR: ". $char;
+		}
+
+		//$product_id = 
+
+
+
+		//$items = $items.",". $img_id;
+
+		//echo $items;
+
+		
+
+		
+		
+
+		
+
+		
 	}
 
 	//--------------------------------------------------------------------
