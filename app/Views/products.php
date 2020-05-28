@@ -99,36 +99,38 @@
     <!-- Header -->
 <div class="header" id="myHeader">
   <h1>All your Wishes</h1>
-  <p>Click on the buttons to change the grid view.</p>
-  <button class="btn" onclick="one()">1</button>
-  <button class="btn active" onclick="two()">2</button>
-  <button class="btn" onclick="three()">3</button>
 </div>
 
 <!-- Photo Grid -->
 <div class="row"> 
   <div class="column">
     <?php 
-
-    if(strcmp($warning, "exists") == 0){
+    if(strcmp($info, "exists") == 0){
       ?>
       <div class="warning" style="width:100%; height:100px; background-color:orange;">
         <p>This product is already in your wishlist</p>
       </div>
       <?php
+    }else{
+      if(strcmp($info, "ok") == 0){
+        ?>
+        <div class="warning" style="width:100%; height:100px; background-color:green;">
+          <p>Good choice! Product added to your wishlist!</p>
+        </div>
+        <?php
+      }
     }
-
+    
     foreach ($products as $row){
     ?>
-    <div class="container">
-        <img src="../../public/assets/img/<?php echo $row?>.jpg" alt="Imagen producto">
+    <div class="container col-sm-12">
+        <img src="../../public/assets/img/<?php echo $row?>.jpg" alt="Imagen producto" style="width:50%; height:50%; border-style:solid; border-color:grey;">
         <button  class="btn" role="link" onclick="window.location='product?arg=<?php echo $row?>'">Profile</button>
         <?php 
          if (isset($_SESSION['name'])){?>
           <button class="btn" role="link" onclick="window.location='wish?arg=<?php echo $row?>'">Wish</button>
    <?php }?>
     </div>
-
     <?php
     }
     ?>
@@ -136,50 +138,6 @@
   </div>  
 
 </div>
-
-<script>
-// Get the elements with class="column"
-var elements = document.getElementsByClassName("column");
-
-// Declare a loop variable
-var i;
-
-// Full-width images
-function one() {
-    for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "100%";  // IE10
-    elements[i].style.flex = "100%";
-  }
-}
-
-// Two images side by side
-function two() {
-  for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "50%";  // IE10
-    elements[i].style.flex = "50%";
-  }
-}
-
-// Four images side by side
-function three() {
-  for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "33%";  // IE10
-    elements[i].style.flex = "33%";
-  }
-}
-
-// Add active class to the current button (highlight it)
-var header = document.getElementById("myHeader");
-var btns = header.getElementsByClassName("btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-}
-
-</script>
 
 </body>
 </html>

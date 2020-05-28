@@ -32,46 +32,45 @@
             <?php
         }?>
     <div class= col-sm-6>
-    <button type="button" onclick="addProduct()">Add product</button>
+    <button type="button" class="btn" onclick="addProduct()">Add product</button>
     <button type="button" onclick="removeProduct()">Remove product</button>
     <button type="button" onclick="removeUser()">Remove user</button>
     </div>
     
-    <div class="container" id="addProduct" style="display:none">
+    <div class="container col-sm-6" id="addProduct" style="display:none; background-color:silver;">
         <form action="/public/home/addProduct" method="post">
-            <label for="pname"><b>Name of the product</b></label>
+            <label for="pname"><b>Name of the product:</b></label>
             <input type="text" placeholder="Enter a product name" name="pname" required>
-
-            <label for="price"><b>Price</b></label>
+            <br>
+            <label for="price"><b>Price:</b></label>
             <input type="text" placeholder="Enter a price" name="price" required>
-
-            <label for="description"><b>Description</b></label>
+            <br>
+            <label for="description"><b>Description:</b></label>
             <input type="text" placeholder="Enter a description" name="description" required>
-
-            <label for="link"><b>Link</b></label>
+            <br>
+            <label for="link"><b>Link:</b></label>
             <input type="text" placeholder="Enter Link" name="link" required>
-
-            <label for="imgnumber"><b>Number of the image</b></label>
+            <br>
+            <label for="imgnumber"><b>Number of the image:</b></label>
             <input type="number" placeholder="Enter a number" name="imgnumber" required>
-
+            <br>
             </label>
             <input type="submit" value="Send">
         </form>
     </div>
 
-    <div class="container" id="removeProduct" style="display:none">
+    <div class="container col-sm-6" id="removeProduct" style="display:none; background-color:silver;">
         <form action="/public/home/removeProduct" method="post">
-            <label for="imgnumber"><b>Number of the image</b></label>
+            <label for="imgnumber"><b>Number of the image:</b></label>
                 <input type="number" placeholder="Enter a number" name="imgnumber" required>
             </label>
             <input type="submit" value="Send">
         </form>
     </div>
 
-    <div class="container" id="removeUser" style="display:none">
+    <div class="container col-sm-6" id="removeUser" style="display:none; background-color:silver;">
         <form action="/public/home/removeUser" method="post">
-
-            <label for="mail"><b>E-mail</b></label>
+            <label for="mail"><b>E-mail:</b></label>
                 <input type="email" placeholder="Enter E-mail" name="mail" required>
             </label>
             <input type="submit" value="Send">

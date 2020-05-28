@@ -16,42 +16,35 @@
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
 	<br><br><br>
-	<div class="heroe">
-
+	<div class="heroe col-sm-12 text-center">
 		<h1>Welcome to Wishes</h1>
 
 		<h2>Share your wishes</h2>
-
 	</div>
 
 </header>
 
 <!-- CONTENT -->
 
-<section>
-
+<section class="col-sm-12 text-center">
+	<img src="../../public/assets/img/logo.png" alt="logo" width="50%" height="50%">
 </section>
 
 <div class="further">
-
-	<section>
-
+	<section class="col-sm-12 text-center">
+		<p>The objective of this application is to allow you to generate lists of products that you would like to have called wishes</p>
 	</section>
-
 </div>
 
 <!-- FOOTER: DEBUG INFO + COPYRIGHTS -->
 
 <footer>
-	<div class="environment">
-
-		<p>Page rendered in {elapsed_time} seconds</p>
-
-		<p>Environment: <?= ENVIRONMENT ?></p>
-
+	<div class="environment col-sm-12 text-center">
+		<a>With support of:</a>
+		<a href="http://www.institutpedralbes.cat/">Institute Pedralbes</a>
 	</div>
 
-	<div class="copyrights">
+	<div class="copyrights col-sm-12 text-center">
 
 		<p>&copy; <?= date('Y') ?> Wishes by Adrian Postigo</p>
 

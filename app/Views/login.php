@@ -14,26 +14,18 @@
 <body>
     <br><br><br>
     
-    <div class="container">
-        <form action="/public/home/user" method="post">
-            <label for="uname"><b>Email</b></label>
+    <div class="container col-sm-6" style="background-color:silver;">
+        <form action="/public/home/user" class="text-left" method="post">
+            <label for="uname"><b>Email:</b></label>
             <input type="email" placeholder="Enter Email" name="uname" required>
-
-            <label for="psw"><b>Password</b></label>
+            <br>
+            <label for="psw"><b>Password:</b></label>
             <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
+            <br>
             </label>
             <input type="submit" value="Login">
         </form>
     </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-        <button type="button" class="cancelbtn">Cancel</button>
-        <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-    </form>
 
 </body>
 </html>

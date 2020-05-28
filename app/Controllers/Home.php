@@ -23,6 +23,7 @@ class Home extends BaseController
 		$okpass = 0;
 		$okmailAdmin = 0;
 		$okpassAdmin = 0;
+		$products_names = array();
 
 		$username = $_POST['uname'];
 		$pass = $_POST['psw'];
@@ -127,7 +128,37 @@ class Home extends BaseController
 				}
 				
 				$data['age'] = $age;
-				$data['surname'] = $surname;			
+				$data['surname'] = $surname;	
+				
+				//Wishlist
+			$sql = "SELECT Items FROM wishlist WHERE UserMail = ?";
+			$query = $db->query($sql, $_SESSION['email']);
+
+			foreach ($query->getResult('array') as $row)
+			{	
+				$items = $row['Items'];
+			}
+
+			$array_items = str_split($items);
+
+			foreach ($array_items as $char) {
+				//echo "CHAAAAR: ". $char;
+				if($char != ','){
+					//echo "CHAAAR:".$char;
+					$sql = "SELECT Name FROM product WHERE Img = ?";
+					$query = $db->query($sql, $char);
+					//var_dump($query);
+					foreach ($query->getResult('array') as $row)
+					{	
+						array_push($products_names, $row['Name']);
+						//echo "NAME: ".$row['Name'];
+					}
+					//$data['name'] = $name;
+				}
+			}
+			
+			//var_dump($products_names);
+			$data['products_names'] = $products_names;
 
 				echo view('/inc/header');
 				echo view('profile', $data);
@@ -190,6 +221,9 @@ class Home extends BaseController
 
 			//Registro
 			$query = $db->query("INSERT INTO user (Name, Surname, Age, Email, Password) VALUES ('$uname', '$sname', '$age', '$mail', '$psw')");
+
+			//Create de wishlist
+			$query = $db->query("INSERT INTO wishlist (UserMail) VALUES ('$mail')");
 			
 			echo view('/inc/header');
 			echo view('home');
@@ -288,6 +322,9 @@ class Home extends BaseController
 
 	//profile
 	public function profile(){
+		$products_names = array();
+		$items;
+		$img_id;
 
 		try
 		{
@@ -299,7 +336,7 @@ class Home extends BaseController
 			die($e->getMessage());
 		}
 
-	
+		//Data Username
 		$sql = "SELECT * FROM user WHERE Email = ?";
 		$query = $db->query($sql, $_SESSION['email']);
 
@@ -312,7 +349,36 @@ class Home extends BaseController
 				$age = $row['Age'];
 				$surname = $row['Surname'];
 			}
+
+			//Wishlist
+			$sql = "SELECT Items FROM wishlist WHERE UserMail = ?";
+			$query = $db->query($sql, $_SESSION['email']);
+
+			foreach ($query->getResult('array') as $row)
+			{	
+				$items = $row['Items'];
+			}
+
+			$array_items = str_split($items);
+
+			foreach ($array_items as $char) {
+				//echo "CHAAAAR: ". $char;
+				if($char != ','){
+					//echo "CHAAAR:".$char;
+					$sql = "SELECT Name FROM product WHERE Img = ?";
+					$query = $db->query($sql, $char);
+					//var_dump($query);
+					foreach ($query->getResult('array') as $row)
+					{	
+						array_push($products_names, $row['Name']);
+						//echo "NAME: ".$row['Name'];
+					}
+					//$data['name'] = $name;
+				}
+			}
 			
+			//var_dump($products_names);
+			$data['products_names'] = $products_names;
 			$data['age'] = $age;
 			$data['surname'] = $surname;
 			echo view('/inc/header');
@@ -476,6 +542,8 @@ class Home extends BaseController
 
 		$img_id = substr($actual_link, -1);
 
+		$exists = 0;
+
 		try
 		{
 			$db = \Config\Database::connect();
@@ -497,10 +565,76 @@ class Home extends BaseController
 			$items = $row['Items'];
 		}
 
-		$items = str_split($items);
+		$array_items = str_split($items);
 
-		foreach ($items as $char) {
+		foreach ($array_items as $char) {
 			echo "CHAAAAR: ". $char;
+			if ($char == $img_id){
+				$exists = 1;
+			}
+		}
+
+		if ($exists == 1){
+
+			$products = array();
+
+			try
+			{
+				$db = \Config\Database::connect();
+		
+			}
+				catch (\Exception $e)
+			{
+				die($e->getMessage());
+			}
+
+			$query = $db->query("SELECT Img FROM product");
+
+			foreach ($query->getResult('array') as $row)
+			{
+					
+				array_push($products, $row['Img']);
+
+			}
+
+			$data['products'] = $products;
+			$data['info'] = "exists";
+			echo view('/inc/header');
+			echo view('products', $data);
+
+		}else{
+			$items = $items.",".$img_id;
+
+			$products = array();
+
+			try
+			{
+				$db = \Config\Database::connect();
+		
+			}
+				catch (\Exception $e)
+			{
+				die($e->getMessage());
+			}
+
+			$query = $db->query("SELECT Img FROM product");
+
+			foreach ($query->getResult('array') as $row)
+			{
+					
+				array_push($products, $row['Img']);
+
+			}
+
+			echo "Items:". $items;
+			$sql = ("UPDATE wishlist SET Items='$items' WHERE UserMail=?"); 
+			//echo "USER -------->:".$_SESSION['email'];
+			$query = $db->query($sql, $_SESSION['email']);
+
+			$data['products'] = $products;
+			$data['info'] = "ok";
+			echo view('/inc/header');
+			echo view('products', $data);
 		}
 
 		//$product_id = 
