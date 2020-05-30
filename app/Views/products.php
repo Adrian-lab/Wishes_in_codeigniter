@@ -6,9 +6,7 @@
     <title>Products</title>
 
     <style>
-        * {
-        box-sizing: border-box;
-        }
+
 
         body {
         margin: 0;
@@ -28,7 +26,6 @@
         padding: 0 4px;
         }
 
-        /* Create two equal columns that sits next to each other */
         .column {
         -ms-flex: 50%; /* IE 10 */
         flex: 50%;
@@ -59,16 +56,10 @@
         color: white;
         }
 
-        /* Container needed to position the button. Adjust the width as needed */
+/* Container needed to position the button. Adjust the width as needed */
 .container {
   position: relative;
   width: 50%;
-}
-
-/* Make the image responsive */
-.container img {
-  width: 100%;
-  height: auto;
 }
 
 /* Style the button and place it in the middle of the container/image */
@@ -99,6 +90,7 @@
     <!-- Header -->
 <div class="header" id="myHeader">
   <h1>All your Wishes</h1>
+  <hr>
 </div>
 
 <!-- Photo Grid -->
@@ -107,15 +99,15 @@
     <?php 
     if(strcmp($info, "exists") == 0){
       ?>
-      <div class="warning" style="width:100%; height:100px; background-color:orange;">
-        <p>This product is already in your wishlist</p>
+      <div class="warning" style="width:100%; height:20px; background-color:orange; position:absolute; top:61px;">
+        <p style="padding-left:10px;">This product is already in your wishlist</p>
       </div>
       <?php
     }else{
       if(strcmp($info, "ok") == 0){
         ?>
-        <div class="warning" style="width:100%; height:100px; background-color:green;">
-          <p>Good choice! Product added to your wishlist!</p>
+        <div class="warning" style="width:100%; height:20px; background-color:green; position:absolute; top:61px;">
+          <p style="padding-left:10px;">Good choice! Product added to your wishlist!</p>
         </div>
         <?php
       }
@@ -124,7 +116,7 @@
     foreach ($products as $row){
     ?>
     <div class="container col-sm-12">
-        <img src="../../public/assets/img/<?php echo $row?>.jpg" alt="Imagen producto" style="width:50%; height:50%; border-style:solid; border-color:grey;">
+        <img src="../../public/assets/img/<?php echo $row?>.jpg" alt="Imagen producto" style="width:50%; border-style:solid; border-color:grey;">
         <button  class="btn" role="link" onclick="window.location='product?arg=<?php echo $row?>'">Profile</button>
         <?php 
          if (isset($_SESSION['name'])){?>

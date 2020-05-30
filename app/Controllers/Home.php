@@ -27,6 +27,9 @@ class Home extends BaseController
 
 		$username = $_POST['uname'];
 		$pass = $_POST['psw'];
+		$encrypted_pass =  md5($pass);
+		echo($encrypted_pass);
+
 		//echo view('login');
 		session_start();
 		//validation
@@ -57,7 +60,6 @@ class Home extends BaseController
 			if (strcmp($row['Email'],$username)==0){
 				$okmail =1;
 			}
-			//echo ($row['Email']);
 		}
 
 		$query = $db->query('SELECT Password FROM user');
@@ -65,10 +67,9 @@ class Home extends BaseController
 		//validation password
 		foreach ($query->getResult('array') as $row)
 		{
-			if (strcmp($row['Password'], $pass)==0){
+			if (strcmp($row['Password'], $encrypted_pass)==0){
 				$okpass =1;
 			}
-			//echo ($row['Contraseña']);
 
 		}
 		
@@ -79,7 +80,6 @@ class Home extends BaseController
 				$sql = "SELECT Name FROM user WHERE Email = ?";
 				$query = $db->query($sql, $username);
 
-				//$query = $db->query("SELECT Nom FROM user WHERE	Email = '.$username.'");
 				foreach ($query->getResult('array') as $row)
 				{
 					
@@ -94,15 +94,11 @@ class Home extends BaseController
 				echo view("admin");
 			}else{
 
-			
-
-
 				//$session = session();
 
 				$sql = "SELECT Name FROM user WHERE Email = ?";
 				$query = $db->query($sql, $username);
 
-				//$query = $db->query("SELECT Nom FROM user WHERE	Email = '.$username.'");
 				foreach ($query->getResult('array') as $row)
 				{
 					
@@ -112,9 +108,6 @@ class Home extends BaseController
 				
 				$_SESSION['name'] = $nom;
 				$_SESSION['email'] = $username;
-				//$session->set('name', $nom);
-				//$session->set('email', $username);
-
 
 				//GET USER DATA 
 				$sql = "SELECT * FROM user WHERE Email = ?";
@@ -142,22 +135,16 @@ class Home extends BaseController
 			$array_items = str_split($items);
 
 			foreach ($array_items as $char) {
-				//echo "CHAAAAR: ". $char;
 				if($char != ','){
-					//echo "CHAAAR:".$char;
 					$sql = "SELECT Name FROM product WHERE Img = ?";
 					$query = $db->query($sql, $char);
-					//var_dump($query);
 					foreach ($query->getResult('array') as $row)
 					{	
 						array_push($products_names, $row['Name']);
-						//echo "NAME: ".$row['Name'];
 					}
-					//$data['name'] = $name;
 				}
 			}
 			
-			//var_dump($products_names);
 			$data['products_names'] = $products_names;
 
 				echo view('/inc/header');
@@ -185,6 +172,7 @@ class Home extends BaseController
 		$mail = $_POST['mail'];
 		$psw = $_POST['psw'];
 		$exists = 0;
+		$encrypted_pass;
 
 
 		//validation
@@ -217,10 +205,10 @@ class Home extends BaseController
 			$_SESSION['name'] = $uname;
 			$_SESSION['email'] = $mail;
 			
-
+			$encrypted_pass = md5($psw);
 
 			//Registro
-			$query = $db->query("INSERT INTO user (Name, Surname, Age, Email, Password) VALUES ('$uname', '$sname', '$age', '$mail', '$psw')");
+			$query = $db->query("INSERT INTO user (Name, Surname, Age, Email, Password) VALUES ('$uname', '$sname', '$age', '$mail', '$encrypted_pass')");
 
 			//Create de wishlist
 			$query = $db->query("INSERT INTO wishlist (UserMail) VALUES ('$mail')");
@@ -294,10 +282,6 @@ class Home extends BaseController
 			array_push($product_info, $row['Price'] );
 			array_push($product_info, $row['Description'] );
 			array_push($product_info, $row['Link'] );
-
-			/*$data['product_name'] = $row['Name'];
-			$data['product_price'] = $row['Price'];
-			$data['product_description'] = $row['Description'];*/
 	
 		}
 		$img_url = "../../public/assets/img/".$img_id.".jpg";
@@ -306,8 +290,6 @@ class Home extends BaseController
 
 		echo view('/inc/header');
 		echo view('product', $data);
-		//$something = $_POST['wish'];
-		//echo ($something);
 
 	}
 
@@ -362,22 +344,16 @@ class Home extends BaseController
 			$array_items = str_split($items);
 
 			foreach ($array_items as $char) {
-				//echo "CHAAAAR: ". $char;
 				if($char != ','){
-					//echo "CHAAAR:".$char;
 					$sql = "SELECT Name FROM product WHERE Img = ?";
 					$query = $db->query($sql, $char);
-					//var_dump($query);
 					foreach ($query->getResult('array') as $row)
 					{	
 						array_push($products_names, $row['Name']);
-						//echo "NAME: ".$row['Name'];
 					}
-					//$data['name'] = $name;
 				}
 			}
 			
-			//var_dump($products_names);
 			$data['products_names'] = $products_names;
 			$data['age'] = $age;
 			$data['surname'] = $surname;
@@ -523,7 +499,6 @@ class Home extends BaseController
 			
 			$sql = "DELETE FROM user WHERE Email = ?";
 			$query = $db->query($sql, $mail);
-			//$query = $db->query("DELETE FROM user WHERE Email = $mail");
 			
 			$data['info'] = "ok";
 
@@ -556,7 +531,6 @@ class Home extends BaseController
 
 		$sql = "SELECT Items FROM wishlist WHERE UserMail = ?"; 
 
-		//echo "USER -------->:".$_SESSION['email'];
 		$query = $db->query($sql, $_SESSION['email']);
 
 		foreach ($query->getResult('array') as $row)
@@ -628,7 +602,6 @@ class Home extends BaseController
 
 			echo "Items:". $items;
 			$sql = ("UPDATE wishlist SET Items='$items' WHERE UserMail=?"); 
-			//echo "USER -------->:".$_SESSION['email'];
 			$query = $db->query($sql, $_SESSION['email']);
 
 			$data['products'] = $products;
@@ -636,22 +609,6 @@ class Home extends BaseController
 			echo view('/inc/header');
 			echo view('products', $data);
 		}
-
-		//$product_id = 
-
-
-
-		//$items = $items.",". $img_id;
-
-		//echo $items;
-
-		
-
-		
-		
-
-		
-
 		
 	}
 

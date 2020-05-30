@@ -10,7 +10,7 @@
     <br><br><br><br><br>
     <div class="col-sm-12">
         <h1>Your profile</h1>
-
+        <hr>
         <div class="col-sm-8">
             <div class="col-sm-6">
                 <a>Name: <?php echo $_SESSION["name"]; ?></a><br>
@@ -19,9 +19,10 @@
                 <a>Email: <?php echo $_SESSION["email"]; ?></a>
             </div>  
         </div>
-
+        <br><br>
         <div class="col-sm-6">
             <h2>Wishlist Products</h2>
+            <hr>
             <?php foreach ($products_names as $row) {
             ?>
                 <a>Wish: <?php echo $row; ?></a><br>
@@ -34,7 +35,7 @@
 
     <script>
         function addProduct() {
-            if(document.getElementById("createWishlist").style.display = "none";){
+            if(document.getElementById("createWishlist").style.display = "none"){
                 document.getElementById("createWishlist").style.display = "block";
             }else{
                 document.getElementById("createWishlist").style.display = "none";   

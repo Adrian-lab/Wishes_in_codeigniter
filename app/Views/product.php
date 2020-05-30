@@ -11,6 +11,7 @@
    
     <div class="col-sm-8">
         <h1>Profile product</h1>
+        <hr>
         <img src="<?php echo $product_info[4];?>" style="width:50%; height:50%; border-style:solid; border-color:grey;"></img><br>
         <a>Name: <?php echo $product_info[0]; ?></a><br>
         <a>Price: <?php echo $product_info[1]; ?> €</a><br>

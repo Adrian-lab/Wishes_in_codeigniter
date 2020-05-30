@@ -18,7 +18,7 @@
 	<br><br><br>
 	<div class="heroe col-sm-12 text-center">
 		<h1>Welcome to Wishes</h1>
-
+		
 		<h2>Share your wishes</h2>
 	</div>
 
@@ -27,42 +27,17 @@
 <!-- CONTENT -->
 
 <section class="col-sm-12 text-center">
-	<img src="../../public/assets/img/logo.png" alt="logo" width="50%" height="50%">
-</section>
-
-<div class="further">
+	<img src="../../public/assets/img/logo.png" alt="logo" width="40%">
+	<br>
 	<section class="col-sm-12 text-center">
 		<p>The objective of this application is to allow you to generate lists of products that you would like to have called wishes</p>
 	</section>
-</div>
-
-<!-- FOOTER: DEBUG INFO + COPYRIGHTS -->
-
-<footer>
 	<div class="environment col-sm-12 text-center">
 		<a>With support of:</a>
 		<a href="http://www.institutpedralbes.cat/">Institute Pedralbes</a>
 	</div>
-
-	<div class="copyrights col-sm-12 text-center">
-
-		<p>&copy; <?= date('Y') ?> Wishes by Adrian Postigo</p>
-
-	</div>
-
-</footer>
-
-<!-- SCRIPTS -->
-
-<script>
-	function toggleMenu() {
-		var menuItems = document.getElementsByClassName('menu-item');
-		for (var i = 0; i < menuItems.length; i++) {
-			var menuItem = menuItems[i];
-			menuItem.classList.toggle("hidden");
-		}
-	}
-</script>
+	<p>&copy; <?= date('Y') ?> Wishes by Adrian Postigo</p>
+</section>
 
 <!-- -->
 
